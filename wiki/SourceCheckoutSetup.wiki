@@ -1,7 +1,7 @@
 #summary Source checkout setup.
 
 = Introduction =
-Setup in netbeans using svn client, then use url 
+Setup in netbeans using svn client, then use url: https://itis5166uncc.googlecode.com/svn/trunk/ 
 
 
 = Details =
