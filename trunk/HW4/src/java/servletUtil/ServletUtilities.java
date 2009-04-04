@@ -42,9 +42,9 @@ public class ServletUtilities {
            "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">\n" +
            "<head><meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\"/>" +
            "<link rel=\"stylesheet\" type=\"text/css\" href=\"stockmart.css\"/>" +
-           "<title>" + title + "</title></head>\n" +
-           "<body>");
+           "<title>" + title + "</title></head>" );
   }
+
 
   public static String header(String message)
   {

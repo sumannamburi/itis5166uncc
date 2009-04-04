@@ -7,6 +7,7 @@ package stockmart;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -30,56 +31,10 @@ public class Registration extends HttpServlet {
     protected void displayRegistration(HttpServletRequest request, HttpServletResponse response, String message)
     throws ServletException, IOException {
         
-        PrintWriter out = response.getWriter();
-        try {
-            
-            out.println(ServletUtilities.headWithTitle("Registration"));
-            out.println(ServletUtilities.header("StockMart"));
-            out.println("<div id=\"content\">");
-            out.println("<p>"+message+"</p>");
-            out.println("<form name=\"register\" action=\""+ServletUtilities.PATHROOT+"/Registration\" method=\"post\">");
-            out.println("<table border=\"1\" class=\"login\">");
-            out.println("<tr class=\"heading\">");
-            out.println("<th colspan=\"2\">Registration</th>");
-            out.println("</tr>");
-
-            out.println("<tr>");
-            out.println("<td>First Name:</td>");
-            out.println("<td><input type=\"text\" name=\"firstname\" id=\"firstname\"/></td>");
-            out.println("</tr>");
-
-            out.println("<tr>");
-            out.println("<td>Last Name:</td>");
-            out.println("<td><input type=\"text\" name=\"lastname\" id=\"lastname\"/></td>");
-            out.println("</tr>");
-
-            out.println("<tr>");
-            out.println("<td>Requested Username:</td>");
-            out.println("<td><input type=\"text\" name=\"username\" id=\"username\" /></td>");
-            out.println("</tr>");
-
-            out.println("<tr>");
-            out.println("<td>Password:</td>");
-            out.println("<td><input type=\"password\" name=\"pw\" id=\"pw\"/></td>");
-            out.println("</tr>");
-            out.println("<tr>");
-            out.println("<td>Confirm Password:</td>");
-            out.println("<td><input type=\"password\" name=\"pwconfirm\" id=\"pwconfirm\"/></td>");
-            out.println("</tr>");
-            out.println("<tr>");
-            out.println("<td colspan=\"2\"><input type=\"submit\" value=\"Submit\"/>");
-            out.println("<input type=\"reset\" value=\"Reset\"/></td>");
-            out.println("</tr>");
-            out.println("</table>");
-            out.println("</form>");
-
-            out.println("</div><!-- content-->");
-            out.println(ServletUtilities.footer);
-            out.println(ServletUtilities.END);
-
-        } finally { 
-            out.close();
-        }
+        RegistrationBean registerbean = new RegistrationBean(message);
+        request.setAttribute("registerbean", registerbean);
+        RequestDispatcher rd = request.getRequestDispatcher("Registration.jsp");
+        rd.forward(request, response);
     }
 
 
@@ -105,20 +60,20 @@ public class Registration extends HttpServlet {
         {
             displayRegistration(request, response, "The username was not entered.  Please try again.");
         }
-        if(password.length()==0)
+        else if(password.length()==0)
         {
             displayRegistration(request, response, "The password was not entered.  Please try again.");
         }
-        if(firstname.length()==0)
+        else if(firstname.length()==0)
         {
             displayRegistration(request, response, "The first name was not entered.  Please try again.");
         }
-        if(lastname.length()==0)
+        else if(lastname.length()==0)
         {
             displayRegistration(request, response, "The last name was not entered.  Please try again.");
         }
 
-        if(pwconfirm.length()==0)
+        else if(pwconfirm.length()==0)
         {
             displayRegistration(request, response, "Please be sure to confirm your password.");
         }
