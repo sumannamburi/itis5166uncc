@@ -44,26 +44,7 @@ public class TransactionConfirm extends HttpServlet {
         String userFullName = Session.userFullName(request);
         PrintWriter out = response.getWriter();
         try {
-            out.println(ServletUtilities.headWithTitle("Transaction Confirm"));
-            out.println(ServletUtilities.header("StockMart"));
-            out.println("<div id=\"content\">");
-            out.println("<table border=\"1\" class=\"full\">");
-            out.println("<tr class=\"heading\" >");
-            out.println("<th colspan=\"5\">Transaction Details for "+userFullName+"</th>");
-            out.println("</tr>");
-            out.println("<tr>");
-            out.println("<th>Name</th><th>Action</th><th>Quantity</th><th>Price per Share</th><th>Total Value</th>");
-            out.println("</tr>");
-            out.println("<tr>");
-            out.println("<td>"+stockname+"</td><td>"+action+"</td><td>"+quantity+"</td><td>$"+price+"</td>" +
-                    "<td>$"+ServletUtilities.toDollarFigures(totalValue)+"</td>");
-            out.println("</tr>");
-            out.println("<tr><td colspan=\"4\"></td>");
-            out.println("<td colspan=\"1\"><a href=\""+ServletUtilities.PATHROOT+"/Categories\">" +
-                    "[Categories]</a>&#32;<a href=\""+ServletUtilities.PATHROOT+"/Login\">[Log Out]</a></td>");
-            out.println("</tr></table></div><!-- content-->");
-            out.println(ServletUtilities.footer);
-            out.println(ServletUtilities.END);
+            
         } finally { 
             out.close();
         }

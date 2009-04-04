@@ -7,6 +7,7 @@ package stockmart;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -31,45 +32,12 @@ public class Login extends HttpServlet {
      */
     protected void displayLogin(HttpServletRequest request, HttpServletResponse response, String message, String userName)
     throws ServletException, IOException {
-        //response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
-            // TODO output your page here
-            out.println(ServletUtilities.headWithTitle("Login"));
-            out.println(ServletUtilities.header("StockMart"));
-            out.println("<div id=\"content\">");
-            out.println("<p>"+message+"</p>");
-            out.println("<form name=\"login\" action=\""+ServletUtilities.PATHROOT+"/Login\" method=\"post\">");
-            out.println("<table border=\"1\" class=\"login\">");
-            out.println("<tr class=\"heading\">");
-            out.println("<th colspan=\"2\">Login</th>");
-            out.println("</tr>");
-            out.println("<tr>");
-            out.println("<td>Username: </td>");
-            out.println("<td><input type=\"text\" name=\"username\" id=\"username\" value=\""+userName+"\"/></td>");
-            out.println("</tr>");
-            out.println("<tr>");
-            out.println("<td>Password:</td>");
-            out.println("<td><input type=\"password\" name=\"password\" id=\"password\"/></td>");
-            out.println("</tr>");
-            out.println("<tr>");
-            out.println("<td colspan=\"2\"><input type=\"submit\" value=\"Submit\"/>");
-            out.println("<input type=\"reset\" value=\"Reset\"/></td>");
-            out.println("</tr>");
-            out.println("</table>");
-            //out.println("<p class=\"center\">");
-            //out.println("Remember Me on this Computer <input type=\"checkbox\" name=\"remind\" value=\"yes\"/>");
-            //out.println("</p>");
-            out.println("</form>");
-            out.println("<p class=\"center\">");
-            out.println("<a href=\""+ServletUtilities.PATHROOT+"/Registration\">Please click here to register.</a>");
-            out.println("</p>");
-            out.println("</div><!-- content-->");
-            out.println(ServletUtilities.footer);
-            out.println(ServletUtilities.END);
-        } finally { 
-            out.close();
-        }
+
+        LoginBean loginbean = new LoginBean(message);
+        request.setAttribute("loginbean", loginbean);
+        RequestDispatcher rd = request.getRequestDispatcher("Login.jsp");
+        rd.forward(request, response);
+   
     }
 
     
@@ -88,12 +56,12 @@ public class Login extends HttpServlet {
         {
             displayLogin(request, response, "The username was not entered.  Please try again.", "");
         }
-        if(password.length()==0)
+        else if(password.length()==0)
         {
             displayLogin(request, response, "The password was not entered.  Please try again.", "");
         }
         //System.out.println(UserAccessControl.getUser(username));
-        if(UserAccessControl.isValidLogin(username, password) == false)
+        else if(UserAccessControl.isValidLogin(username, password) == false)
         {
             displayLogin(request, response, "The username or password is not valid.  You may need to register first.  Please try again.", "");
         }
