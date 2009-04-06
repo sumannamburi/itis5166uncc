@@ -18,7 +18,7 @@ public class RegistrationBean {
         regMessage=msg;
     }
 
-    public String getMessage()
+    public String getRegMessage()
     {
         return regMessage;
     }

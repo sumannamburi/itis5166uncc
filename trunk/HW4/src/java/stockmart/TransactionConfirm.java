@@ -7,6 +7,7 @@ package stockmart;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -41,13 +42,10 @@ public class TransactionConfirm extends HttpServlet {
             response.sendRedirect(ServletUtilities.PATHROOT+"/Login");
         else{
         getInput(request);
-        String userFullName = Session.userFullName(request);
-        PrintWriter out = response.getWriter();
-        try {
-            
-        } finally { 
-            out.close();
-        }
+        TConfirmBean orderconfirm = new TConfirmBean(stockname, action, price, totalValue, quantity);
+        request.setAttribute("orderconfirm", orderconfirm);
+        RequestDispatcher rd = request.getRequestDispatcher("/TransactionConfirm.jsp");
+        rd.forward(request, response);
         }
     }
 

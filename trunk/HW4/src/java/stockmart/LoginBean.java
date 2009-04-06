@@ -18,7 +18,7 @@ public class LoginBean {
         loginMessage=msg;
     }
 
-    public String getMessage()
+    public String getLoginMessage()
     {
         return loginMessage;
     }

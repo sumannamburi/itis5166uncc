@@ -7,6 +7,7 @@ package stockmart;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +25,7 @@ public class TransactionDetails extends HttpServlet {
     private String action="";
     private int quantity=0;
     private double price=0.00;
-    private String totalValue="0.00";
+    private double totalValue=0.00;
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -41,13 +42,11 @@ public class TransactionDetails extends HttpServlet {
             response.sendRedirect(ServletUtilities.PATHROOT+"/Login");
         else{
         getInput(request, Session.userName(request));
-        String userFullName = Session.userFullName(request);
-        PrintWriter out = response.getWriter();
-        try {
-            
-        } finally { 
-            out.close();
-        }
+
+        TransactionBean orderdetails = new TransactionBean(stockname, action, price, totalValue, quantity);
+        request.setAttribute("orderdetails", orderdetails);
+        RequestDispatcher rd = request.getRequestDispatcher("TransactionDetails.jsp");
+        rd.forward(request, response);
         }
     }
 
@@ -148,7 +147,7 @@ public class TransactionDetails extends HttpServlet {
                 quantity = ServletUtilities.getIntParameter(request,"quantity", 1);
         }
         price = ServletUtilities.getDoubleParameter(request, "price", 0.00);
-        totalValue = ServletUtilities.toDollarFigures(price * quantity);
+        totalValue = Double.parseDouble(ServletUtilities.toDollarFigures(price * quantity));
     }
 
     /**

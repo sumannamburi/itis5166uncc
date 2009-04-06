@@ -7,6 +7,7 @@ package stockmart;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -44,18 +45,25 @@ public class Categories extends HttpServlet {
         else{
         requestCategories = request;
         userFullName = Session.userFullName(request);
+        Session.getSession(request).setAttribute("userFullName", userFullName);
+
         calculateEnergy();
         calculateHealthcare();
         calculateTransportation();
         calculateInvestTotal();
+
+        CategoriesBean catBean = new CategoriesBean(energyTotal, healthTotal, transitTotal, investTotal);
+        request.setAttribute("catBean", catBean);
+        RequestDispatcher rd = request.getRequestDispatcher("Categories.jsp");
+        rd.forward(request, response);
         
         }
     }
 
     public void calculateEnergy() throws ServletException
     {
-        energyTotal = calculateBackend(DefaultStocks.ABCG)
-                +calculateBackend(DefaultStocks.PSOL);
+        energyTotal = Double.parseDouble(ServletUtilities.toDollarFigures(calculateBackend(DefaultStocks.ABCG)
+                +calculateBackend(DefaultStocks.PSOL)));
     }
 
     public double calculateBackend(String stockname) throws ServletException
@@ -77,14 +85,14 @@ public class Categories extends HttpServlet {
 
     public void calculateHealthcare() throws ServletException
     {
-        healthTotal = calculateBackend(DefaultStocks.ABCP)
-                +calculateBackend(DefaultStocks.PMED);
+        healthTotal = Double.parseDouble(ServletUtilities.toDollarFigures(calculateBackend(DefaultStocks.ABCP)
+                +calculateBackend(DefaultStocks.PMED)));
     }
 
     public void calculateTransportation() throws ServletException
     {
-        transitTotal = calculateBackend(DefaultStocks.CBUS)
-                +calculateBackend(DefaultStocks.COMR);
+        transitTotal = Double.parseDouble(ServletUtilities.toDollarFigures(calculateBackend(DefaultStocks.CBUS)
+                +calculateBackend(DefaultStocks.COMR)));
     }
 
     public void calculateInvestTotal()

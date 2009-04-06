@@ -4,74 +4,84 @@
     Author     : owner
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
+<%@page import="servletUtil.*" contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+<link rel="stylesheet" type="text/css" href="stockmart.css"/>
+<title>Transaction Details</title></head>
     <body>
-        <h1>Hello World!</h1>
-        out.println(ServletUtilities.headWithTitle("Transaction Details"));
-        out.println(ServletUtilities.header("StockMart"));
-        out.println("<div id=\"content\">");
+        <div id="header">
+        <p class="banner">Stockmart</p>
+        </div><!--header-->
 
+        <br/>
+        <hr/>
+        <br/>
 
-        out.println("<table border=\"1\" class=\"full\">");
-        out.println("<tr class=\"heading\" >");
-        out.println("<th colspan=\"5\">Transaction Details for "+userFullName+"</th>");
-        out.println("</tr>");
-        out.println("<tr>");
-        out.println("<th>Name</th><th>Action</th><th>Quantity</th><th>Price per Share</th><th>Total Value</th>");
-        out.println("</tr>");
-        out.println("<tr>");
-        out.println("<td>"+stockname+"</td><td>"+action+"</td>");
+        <div id="content">
+        <table border="1" class="full">
+        <tr class="heading">
+        <th colspan="5">Transaction Details for ${userFullName}</th>
+        </tr>
+        <tr>
+        <th>Name</th><th>Action</th><th>Quantity</th><th>Price per Share</th><th>Total Value</th>
+        </tr>
+        <tr>
+        <td>${orderdetails.stockname}</td>
+        <td>${orderdetails.action}</td>
 
-        out.println("<td><form name=\"changeform\" action=\""+ServletUtilities.PATHROOT+"/TransactionDetails\" method=\"post\">" +
-                "<input name=\"change\" type=\"text\" size=\"3\" value=\""+quantity+"\"/>" +
-                "<input type=\"hidden\"  name=\"price\" size=\"3\" value=\""+price+"\"/>"+
-                "<input name=\"changeSubmit\" type=\"submit\" value=\"Change\" /></form></td>");
+        <td><form name="changeform" action="/TransactionDetails" method="post">
+                <input name="change" type="text" size="3" value="${orderdetails.quantity}"/>
+                <input type="hidden"  name="price" size="3" value="${orderdetails.price}"/>
+                <input name="changeSubmit" type="submit" value="Change"/></form>
+        </td>
+        
+        <td>\$${orderdetails.price}</td>
+        <td>\$${orderdetails.total}</td>
+        </tr>
 
-        out.println("");
-        out.println("<td>$"+price+"" +
-                "</td><td>$"+totalValue+"" +
-                "</td>");
+        
+        <tr>            
+            <th colspan="5">Bank Account Information</th>
+        </tr>
 
-        out.println("</tr>");
-        out.println("<tr><form name=\"t_details\" action=\""+ServletUtilities.PATHROOT+"/" +
-                "TransactionConfirm\" method=\"post\"><th colspan=\"5\">Bank Account Information</th></tr>");
-        out.println("<tr>");
-        out.println("<td colspan=\"3\">Account Holder Name</td>");
-        out.println("<td colspan=\"2\"><input type=\"text\" value=\"\"/></td>");
-        out.println("</tr>");
-        out.println("<tr>");
-        out.println("<td colspan=\"3\">Routing Number</td>");
-        out.println("<td colspan=\"2\"><input type=\"text\" value=\"\"/></td>");
-        out.println("</tr>");
-        out.println("<tr>");
-        out.println("<td colspan=\"3\">Account Number</td>");
-        out.println("<td colspan=\"2\"><input type=\"text\" value=\"\"/></td>");
-        out.println("</tr>");
-        out.println("<tr>");
-        out.println("<td colspan=\"4\">" +
-                "" +
-                "<input type=\"hidden\" name=\"totalValue\" size=\"3\" value=\""+totalValue+"\"/>" +
-                "<input type=\"hidden\" name=\"stockname\" size=\"3\" value=\""+stockname+"\"/>" +
-                "<input type=\"hidden\" name=\"action\" size=\"3\" value=\""+action+"\"/>" +
-                "<input type=\"hidden\" name=\"price\" size=\"3\" value=\""+price+"\"/>" +
-                "<input type=\"hidden\" name=\"change\" size=\"3\" value=\""+quantity+"\"/>");
-        out.println("<input type=\"submit\" value=\"Confirm Transaction\"/>&#32;<input type=\"reset\" value=\"Reset\"/>");
-        out.println("</td></form>");
-        out.println("");
-        out.println("<td colspan=\"1\"><a href=\""+ServletUtilities.PATHROOT+"/Categories\">[Categories]</a>&#32;<a href=\""+ServletUtilities.PATHROOT+"/Login\">[Log Out]</a></td>");
-        out.println("</tr></table></div><!-- content-->");
+        <form name="t_details" action="/TransactionConfirm" method="post">
+        <tr>        
+        <td colspan="3">Account Holder Name</td>
+        <td colspan="2"><input type="text" value=""/></td>
+        </tr>
+        <tr>
+        <td colspan="3">Routing Number</td>
+        <td colspan="2"><input type="text" value=""/></td>
+        </tr>
+        <tr>
+        <td colspan="3">Account Number</td>
+        <td colspan="2"><input type="text" value=""/></td>
+        </tr>
 
-        out.println("<p class=\"center\">"+ServletUtilities.explanationTransaction+"</p>");
+        <tr>
+        <td colspan="4">
+        <input type="hidden" name="totalValue" size="3" value="${orderdetails.total}"/>
+        <input type="hidden" name="stockname" size="3" value="${orderdetails.stockname}"/>
+        <input type="hidden" name="action" size="3" value="${orderdetails.action}"/>
+        <input type="hidden" name="price" size="3" value="${orderdetails.price}"/>
+        <input type="hidden" name="change" size="3" value="${orderdetails.quantity}"/>
+        <input type="submit" value="Confirm Transaction"/>&#32;<input type="reset" value="Reset"/>
+        </td>        
+        
+        <td colspan="1">
+            <a href="/Categories">[Categories]</a>&#32;
+            <a href="/Login">[Log Out]</a>
+        </td>
+        </tr>
+        </form>
 
-        out.println(ServletUtilities.footer);
-        out.println(ServletUtilities.END);
-    </body>
-</html>
+        </table>
+        </div><!-- content-->
+
+        <p class="center"><%=ServletUtilities.explanationTransaction%></p>
+
+        <%=ServletUtilities.footer%>
+        <%=ServletUtilities.END%>
