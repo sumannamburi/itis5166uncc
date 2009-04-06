@@ -5,9 +5,7 @@
 --%>
 
 <%@page import="servletUtil.*" contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html\n"+
-"PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"\n"+
-"\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head><meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
@@ -26,7 +24,7 @@
 
     <div id="content">
     <p class="center">
-        ${loginbean.loginMessage}<!-- doesn't display properly -->
+        ${loginbean.loginMessage}
     </p>
     <form name="login" action="/Login" method="post">
     <table border="1" class="login">
@@ -40,8 +38,8 @@
     <tr>
     <td>Password:</td>
     <td><input type="password" name="password" id="password"/></td>
-    </tr>"
-    <tr>"
+    </tr>
+    <tr>
     <td colspan="2"><input type="submit" value="Submit"/>
     <input type="reset" value="Reset"/></td>
     </tr>
@@ -50,6 +48,6 @@
     <p class="center">
     <a href="/Registration">Please click here to register.</a>
     </p>
-    </div><!--${ServletUtilities.PATHROOT} content-->
+    </div><!--content-->
     <%=ServletUtilities.footer%>
     <%=ServletUtilities.END%>

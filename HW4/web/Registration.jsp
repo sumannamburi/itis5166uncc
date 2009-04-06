@@ -24,7 +24,7 @@
         <br/>
         
         <div id="content">
-        <p>${regMessage}</p>
+        <p>${registerbean.regMessage}</p>
         <form name="register" action="/Registration" method="post">
         <table border="1" class="login">
         <tr class="heading">
@@ -62,8 +62,5 @@
         </form>
 
         </div><!-- content-->
-        ServletUtilities.footer
-        ServletUtilities.END
-
-    </body>
-</html>
+        <%=ServletUtilities.footer%>
+        <%=ServletUtilities.END%>

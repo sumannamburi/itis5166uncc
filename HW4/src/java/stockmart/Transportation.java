@@ -7,6 +7,10 @@ package stockmart;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -41,7 +45,58 @@ public class Transportation extends HttpServlet {
         else{
         String userFullName = Session.userFullName(request);
         requestStock = request;
-      
+
+        /**
+         *  following code references TA's HW5 hint
+         */
+        // start by getting the stock list
+        ArrayList<Stock> stocks = new ArrayList<Stock>();
+        for(int e=0; e<transitStocks.length; e++)
+        {
+            stocks.add(AdminStocks.getStock(transitStocks[e]));// AdminStocks.getAllStocks();
+        }
+
+        // create a HashMap to store the number of shares owned of each stock by our user
+
+        HashMap<String, Integer> numberOfSharesOwned = new HashMap<String, Integer>();
+
+        // work through the stocks list and see how many of each stock is owned by our user
+
+        Iterator stockEntries = stocks.iterator();
+
+        while (stockEntries.hasNext()) {
+
+            Stock stock = (Stock)stockEntries.next();
+            String stockName = stock.getName();
+            numberOfSharesOwned.put(stockName, getSharesOwned(stockName));
+        }
+
+        HashMap<String, Double> pricePerOwned = new HashMap<String, Double>();
+        stockEntries = stocks.iterator();
+        while (stockEntries.hasNext()) {
+            Stock stock = (Stock)stockEntries.next();
+            String stockName = stock.getName();
+            pricePerOwned.put(stockName, getSharePrice(stockName));
+        }
+
+        HashMap<String, Double> totalPerStock = new HashMap<String, Double>();
+        stockEntries = stocks.iterator();
+        while (stockEntries.hasNext()) {
+            Stock stock = (Stock)stockEntries.next();
+            String stockName = stock.getName();
+            totalPerStock.put(stockName, getTotal(stockName));
+        }
+
+        // save the user name, stocks list, and the number of shares table as request attibutes
+        request.setAttribute("stocks", stocks);
+        request.setAttribute("numberOfSharesOwned", numberOfSharesOwned);
+        request.setAttribute("pricePerOwned", pricePerOwned);
+        request.setAttribute("totalPerStock", totalPerStock);
+
+
+        // send the user to the page
+        RequestDispatcher dispatcher = request.getRequestDispatcher("Transportation.jsp");
+        dispatcher.forward(request, response);
         }
     }
 
@@ -61,10 +116,10 @@ public class Transportation extends HttpServlet {
             return 0;
     }
 
-    private String getTotal(String stockname) throws ServletException {
+    private double getTotal(String stockname) throws ServletException {
         double price = getSharePrice(stockname);
         int qty = getSharesOwned(stockname);
-        return ServletUtilities.toDollarFigures(price*qty);
+        return Double.parseDouble(ServletUtilities.toDollarFigures(price*qty));
     }
     private String getUserName(HttpServletRequest request) throws ServletException
     {
