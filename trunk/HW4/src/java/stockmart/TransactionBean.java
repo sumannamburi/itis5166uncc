@@ -25,7 +25,7 @@ public class TransactionBean {
         return action;
     }
 
-    public String getStockName() {
+    public String getStockname() {
         return stockname;
     }
 

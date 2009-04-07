@@ -63,11 +63,9 @@ public class Energy extends HttpServlet{
         Iterator stockEntries = stocks.iterator();
 
         while (stockEntries.hasNext()) {
-
             Stock stock = (Stock)stockEntries.next();
             String stockName = stock.getName();           
             numberOfSharesOwned.put(stockName, getSharesOwned(stockName));
-
         }
 
         HashMap<String, Double> pricePerOwned = new HashMap<String, Double>();
@@ -87,9 +85,6 @@ public class Energy extends HttpServlet{
         }
 
         // save the user name, stocks list, and the number of shares table as request attibutes
-
-        
-        
         request.setAttribute("stocks", stocks);
         request.setAttribute("numberOfSharesOwned", numberOfSharesOwned);
         request.setAttribute("pricePerOwned", pricePerOwned);
